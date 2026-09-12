@@ -8,7 +8,7 @@ populations). We measure this gap directly, then close it with a
 lightweight domain-alignment mechanism — proven with a controlled
 ablation, never trained or tuned on test data, seed=42 throughout.
 
-📹 **Demo video:** [LINK HERE]
+📹 **Demo video:** https://drive.google.com/file/d/1ILD53zydP-7Kemog1iJ-2kjK7xhITEtg/view?usp=sharing
 📄 **Full report:** [`REPORT.md`](./REPORT.md)
 
 ---
