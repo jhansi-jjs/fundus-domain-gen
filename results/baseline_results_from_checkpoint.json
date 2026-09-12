@@ -1,0 +1,20 @@
+{
+  "source_domain": "REFUGE",
+  "seed": 42,
+  "note": "evaluated from checkpoint",
+  "in_domain": {
+    "domain": "REFUGE",
+    "dice": 0.9171964148680368,
+    "iou": 0.856490033864975
+  },
+  "cross_domain": {
+    "Drishti_GS": {
+      "dice": 0.6584978557768322,
+      "iou": 0.5620196944191342
+    },
+    "ORIGA": {
+      "dice": 0.5866520067578866,
+      "iou": 0.4948154523184425
+    }
+  }
+}
