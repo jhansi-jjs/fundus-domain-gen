@@ -1,4 +1,4 @@
-﻿# Robust Optic Disc/Cup Segmentation Across Imaging Sources
+# Robust Optic Disc/Cup Segmentation Across Imaging Sources
 
 **Hackathon Track 2B — Deep Learning for Healthcare (Segmentation)**
 
@@ -81,7 +81,6 @@ fundus-domain-gen/
 │   ├── live_demo.py      # live single-image inference for recording
 │   └── utils.py          # seeding, Dice/IoU metrics
 ├── REPORT.md             # 4-page report
-├── DEMO_SCRIPT.md        # demo recording script
 ├── checkpoints/          # saved model weights (not committed)
 ├── results/              # JSON results + visuals per run
 └── data/                 # dataset goes here (not committed)
