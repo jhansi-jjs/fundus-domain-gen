@@ -9,6 +9,7 @@ lightweight domain-alignment mechanism — proven with a controlled
 ablation, never trained or tuned on test data, seed=42 throughout.
 
 📹 **Demo video:** https://drive.google.com/file/d/1ILD53zydP-7Kemog1iJ-2kjK7xhITEtg/view?usp=sharing
+📹 **Demo video:** [Watch on YouTube](https://youtu.be/R329Oe0CdyM)
 📄 **Full report:** [`REPORT.md`](./REPORT.md)
 
 ---
