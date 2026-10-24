@@ -83,13 +83,13 @@ def create_presentation():
             accent.line.fill.background()
 
         if title:
-            tb = slide.shapes.add_textbox(left + Inches(0.25), top + Inches(0.18), width - Inches(0.5), Inches(0.45))
+            tb = slide.shapes.add_textbox(left + Inches(0.25), top + Inches(0.16), width - Inches(0.5), Inches(0.38))
             tf = tb.text_frame
             tf.word_wrap = True
             p = tf.paragraphs[0]
             p.text = title
             p.font.name = "Arial"
-            p.font.size = Pt(14)
+            p.font.size = Pt(13)
             p.font.bold = True
             p.font.color.rgb = NAVY
         return card
@@ -855,35 +855,90 @@ def create_presentation():
     )
 
     # =========================================================================
-    # SLIDE 11: QUALITATIVE VISUAL RESULTS
+    # SLIDE 11: QUALITATIVE VISUAL RESULTS (Clean Canva Split Layout)
     # =========================================================================
     s11 = prs.slides.add_slide(blank_layout)
     set_canvas_bg(s11)
     add_header(s11, "Qualitative Visualizations on Target Cohorts", "QUALITATIVE VISUAL RESULTS")
 
-    # Embedded qualitative segmentation comparison strip
-    add_card(s11, Inches(0.8), Inches(1.5), Inches(11.7), Inches(4.3), "Side-by-Side Segmentation Strips (Input | Ground Truth | Baseline | IBN)", TEAL)
-    vis_comp_img = os.path.join(ASSETS_DIR, "qualitative_segmentation_comparison.png")
-    if os.path.exists(vis_comp_img):
-        s11.shapes.add_picture(vis_comp_img, Inches(1.0), Inches(2.05), width=Inches(11.3))
+    # Left Column: Two Target Domain Visual Strips (Each 4:1 aspect ratio, 7.2" x 1.8")
+    drishti_img = os.path.join("results", "visuals", "Drishti_GS_sample25_orig_gt_baseline_ibn.png")
+    origa_img = os.path.join("results", "visuals", "ORIGA_sample75_orig_gt_baseline_ibn.png")
 
-    # Bottom analysis card
-    add_card(s11, Inches(0.8), Inches(5.95), Inches(11.7), Inches(1.15), "Clinical Visual Observations", BLUE_ACCENT)
-    tb = s11.shapes.add_textbox(Inches(1.05), Inches(6.25), Inches(11.2), Inches(0.75))
-    tf = tb.text_frame
-    tf.word_wrap = True
-    p = tf.paragraphs[0]
-    p.text = "1. Baseline U-Net Failure Mode: Suffers severe boundary blurring and over-segmentation on ORIGA and Drishti-GS due to unfamiliar retinal pigmentation and camera glare. The optic cup is either completely lost or falsely expanded."
-    p.font.name = "Arial"
-    p.font.size = Pt(9.5)
-    p.font.color.rgb = TEXT_DARK
-    p.space_after = Pt(2)
-    p2 = tf.add_paragraph()
-    p2.text = "2. IBN Restoration: Accurately isolates the central excavated optic cup (red) inside the circumscribed optic disc (yellow), closely matching expert ground truth annotations and yielding reliable Cup-to-Disc Ratio (CDR) estimations."
+    # Card 1: Drishti-GS
+    add_card(s11, Inches(0.8), Inches(1.45), Inches(7.6), Inches(2.65), "Target Domain 1: Drishti-GS (Severe Lighting & Contrast Shift)", TEAL)
+    tb_sub1 = s11.shapes.add_textbox(Inches(1.0), Inches(1.90), Inches(7.2), Inches(0.28))
+    tf1 = tb_sub1.text_frame
+    tf1.word_wrap = True
+    p1 = tf1.paragraphs[0]
+    p1.text = "Original Fundus  |  Ground Truth (GT)  |  Baseline U-Net  |  IBN U-Net (Proposed)"
+    p1.font.name = "Arial"
+    p1.font.size = Pt(9.5)
+    p1.font.bold = True
+    p1.font.color.rgb = TEXT_MUTED
+
+    if os.path.exists(drishti_img):
+        s11.shapes.add_picture(drishti_img, Inches(1.0), Inches(2.18), width=Inches(7.2), height=Inches(1.80))
+
+    # Card 2: ORIGA
+    add_card(s11, Inches(0.8), Inches(4.30), Inches(7.6), Inches(2.65), "Target Domain 2: ORIGA (Retinal Pigmentation & Optic Boundary Shift)", TEAL)
+    tb_sub2 = s11.shapes.add_textbox(Inches(1.0), Inches(4.75), Inches(7.2), Inches(0.28))
+    tf2 = tb_sub2.text_frame
+    tf2.word_wrap = True
+    p2 = tf2.paragraphs[0]
+    p2.text = "Original Fundus  |  Ground Truth (GT)  |  Baseline U-Net  |  IBN U-Net (Proposed)"
     p2.font.name = "Arial"
     p2.font.size = Pt(9.5)
     p2.font.bold = True
-    p2.font.color.rgb = TEAL_DARK
+    p2.font.color.rgb = TEXT_MUTED
+
+    if os.path.exists(origa_img):
+        s11.shapes.add_picture(origa_img, Inches(1.0), Inches(5.03), width=Inches(7.2), height=Inches(1.80))
+
+    # Right Column: Clinical Observations & Analysis Card (Full Height, Perfectly Aligned)
+    add_card(s11, Inches(8.65), Inches(1.45), Inches(3.9), Inches(5.50), "Clinical Observations", BLUE_ACCENT)
+
+    # Color Legend Box
+    leg_box = s11.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(8.85), Inches(2.05), Inches(3.5), Inches(0.55))
+    leg_box.fill.solid()
+    leg_box.fill.fore_color.rgb = RGBColor(0xF1, 0xF5, 0xF9)
+    leg_box.line.color.rgb = CARD_BORDER
+    tf_leg = leg_box.text_frame
+    tf_leg.word_wrap = True
+    p_leg = tf_leg.paragraphs[0]
+    p_leg.text = "Color Legend: Black = Background\nYellow = Optic Disc (OD) | Red = Optic Cup (OC)"
+    p_leg.font.name = "Arial"
+    p_leg.font.size = Pt(8.5)
+    p_leg.font.bold = True
+    p_leg.font.color.rgb = NAVY
+    p_leg.alignment = PP_ALIGN.CENTER
+
+    # Detailed Clinical Observations Text
+    tb_obs = s11.shapes.add_textbox(Inches(8.85), Inches(2.70), Inches(3.5), Inches(4.15))
+    tf_obs = tb_obs.text_frame
+    tf_obs.word_wrap = True
+
+    obs_points = [
+        ("1. Baseline U-Net Failure Mode", "Suffers severe boundary blurring and false-positive over-segmentation on unseen cameras. Under unfamiliar lighting, the central optic cup is either completely lost or falsely expanded."),
+        ("2. IBN Mechanism Restoration", "Early-stage Instance Normalization explicitly strips camera gain and flash color cast. The yellow optic disc contour is crisp and concentric, while the red optic cup is properly localized."),
+        ("3. Clinical Significance", "Accurate cup-to-disc segmentation directly enables reliable automated Cup-to-Disc Ratio (CDR) measurement, preventing critical misdiagnoses during glaucoma screening.")
+    ]
+
+    for j, (heading, detail) in enumerate(obs_points):
+        p = tf_obs.add_paragraph() if j > 0 else tf_obs.paragraphs[0]
+        p.text = heading
+        p.font.name = "Arial"
+        p.font.size = Pt(10.5)
+        p.font.bold = True
+        p.font.color.rgb = NAVY
+        p.space_after = Pt(2)
+
+        p2 = tf_obs.add_paragraph()
+        p2.text = detail
+        p2.font.name = "Arial"
+        p2.font.size = Pt(9.2)
+        p2.font.color.rgb = TEXT_DARK
+        p2.space_after = Pt(10)
 
     s11.notes_slide.notes_text_frame.text = (
         "SPEAKER NOTES (SLIDE 11 - 1.5 MIN):\n"
@@ -895,19 +950,69 @@ def create_presentation():
     )
 
     # =========================================================================
-    # SLIDE 12: ABLATION STUDY & SCIENTIFIC RIGOR
+    # SLIDE 12: ABLATION STUDY & SCIENTIFIC RIGOR (Native Table + Rigor Cards)
     # =========================================================================
     s12 = prs.slides.add_slide(blank_layout)
     set_canvas_bg(s12)
     add_header(s12, "Controlled Ablation: Isolating the IBN Mechanism", "ABLATION STUDY & SCIENTIFIC RIGOR")
 
-    # Top: Ablation Table Graphic
-    add_card(s12, Inches(0.8), Inches(1.5), Inches(11.7), Inches(3.2), "Controlled Ablation Table (All Variables Fixed, Seed=42, 60 Epochs)", TEAL)
-    tbl_img = os.path.join(ASSETS_DIR, "results_table_summary.png")
-    if os.path.exists(tbl_img):
-        s12.shapes.add_picture(tbl_img, Inches(1.05), Inches(2.05), width=Inches(11.2))
+    # Top: Native Vector PowerPoint Table (Crisp, Controllable Height)
+    add_card(s12, Inches(0.8), Inches(1.45), Inches(11.7), Inches(2.70), "Controlled Ablation Protocol (All Variables Fixed, Seed=42, 60 Epochs)", TEAL)
 
-    # Bottom 3 Rigor Pillar Cards
+    # Native Table Shape
+    t12_shape = s12.shapes.add_table(5, 6, Inches(1.0), Inches(1.95), Inches(11.3), Inches(2.05))
+    tbl12 = t12_shape.table
+    tbl12.columns[0].width = Inches(1.7)
+    tbl12.columns[1].width = Inches(1.8)
+    tbl12.columns[2].width = Inches(1.8)
+    tbl12.columns[3].width = Inches(1.8)
+    tbl12.columns[4].width = Inches(1.8)
+    tbl12.columns[5].width = Inches(2.4)
+
+    t12_headers = ["Domain", "Evaluation Type", "Baseline U-Net\n(Dice / IoU)", "IBN U-Net\n(Dice / IoU)", "Absolute Delta\n(Macro Dice)", "Empirical Evidence & Clinical Value"]
+    for col_idx, h_text in enumerate(t12_headers):
+        cell = tbl12.cell(0, col_idx)
+        cell.fill.solid()
+        cell.fill.fore_color.rgb = NAVY
+        p = cell.text_frame.paragraphs[0]
+        p.text = h_text
+        p.font.name = "Arial"
+        p.font.size = Pt(9.5)
+        p.font.bold = True
+        p.font.color.rgb = WHITE
+        p.alignment = PP_ALIGN.CENTER
+
+    t12_rows = [
+        ("REFUGE", "In-Domain (Source)", "0.9172 / 0.8565", "0.9198 / 0.8604", "+0.0026", "In-domain parity preserved; proves zero capacity inflation"),
+        ("Drishti-GS", "Cross-Domain (Target 1)", "0.6585 / 0.5620", "0.7692 / 0.6684", "+0.1107 (+16.8%)", "Resolves severe camera contrast & lighting shift"),
+        ("ORIGA", "Cross-Domain (Target 2)", "0.5867 / 0.4948", "0.7754 / 0.6759", "+0.1887 (+32.2%)", "Resolves color balance & disc boundary blur"),
+        ("Cross-Domain Mean", "Controlled Ablation", "0.6226 / 0.5284", "0.7723 / 0.6722", "+0.1497 (+24.1%)", "Controlled ablation proves mechanism isolates domain shift")
+    ]
+
+    for row_idx, r_data in enumerate(t12_rows, start=1):
+        is_highlight = (row_idx == 4)
+        for col_idx, val in enumerate(r_data):
+            cell = tbl12.cell(row_idx, col_idx)
+            cell.fill.solid()
+            if is_highlight:
+                cell.fill.fore_color.rgb = RGBColor(0xCC, 0xFB, 0xF1)  # Soft Teal Tint for summary row
+            else:
+                cell.fill.fore_color.rgb = CARD_BG if row_idx % 2 == 1 else RGBColor(0xF8, 0xFA, 0xFC)
+            
+            p = cell.text_frame.paragraphs[0]
+            p.text = val
+            p.font.name = "Arial"
+            p.font.size = Pt(9.0)
+            p.font.color.rgb = NAVY if is_highlight else TEXT_DARK
+            p.alignment = PP_ALIGN.CENTER if col_idx in [0, 1, 2, 3, 4] else PP_ALIGN.LEFT
+            
+            if col_idx == 0 or is_highlight:
+                p.font.bold = True
+            if col_idx == 4:
+                p.font.bold = True
+                p.font.color.rgb = GREEN if "+" in val else NAVY
+
+    # Bottom 3 Rigor Pillar Cards (Clean spacing: Top = 4.35 to 7.00)
     rigor_cards = [
         ("Controlled Experimental Setup", [
             ("Identical Architecture Budget:", "Both models have 4 encoder and 4 decoder levels, base_ch=32."),
@@ -928,8 +1033,8 @@ def create_presentation():
 
     for i, (c_title, points, acc_col) in enumerate(rigor_cards):
         left_pos = Inches(0.8 + i * 4.0)
-        add_card(s12, left_pos, Inches(4.9), Inches(3.75), Inches(2.05), title=c_title, top_accent_color=acc_col)
-        tb = s12.shapes.add_textbox(left_pos + Inches(0.18), Inches(5.3), Inches(3.4), Inches(1.55))
+        add_card(s12, left_pos, Inches(4.35), Inches(3.75), Inches(2.65), title=c_title, top_accent_color=acc_col)
+        tb = s12.shapes.add_textbox(left_pos + Inches(0.18), Inches(4.88), Inches(3.4), Inches(2.05))
         tf = tb.text_frame
         tf.word_wrap = True
         for j, (lead, body) in enumerate(points):
@@ -938,7 +1043,7 @@ def create_presentation():
             p.font.name = "Arial"
             p.font.size = Pt(9.0)
             p.font.color.rgb = TEXT_DARK
-            p.space_after = Pt(2)
+            p.space_after = Pt(4)
 
     s12.notes_slide.notes_text_frame.text = (
         "SPEAKER NOTES (SLIDE 12 - 1.5 MIN):\n"
